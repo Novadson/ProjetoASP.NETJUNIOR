@@ -1,0 +1,151 @@
+﻿
+@{
+    ViewData["Title"] = "buscaDeProdutos";
+}
+@model BuscaDeProdutoViewModel
+<!--Correção adicionando Forme-->
+<form method="post" asp-action="buscaDeProdutos">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <h4>Buscar produtos</h4>
+                <div id="custom-search-input">
+                    <div class="input-group col-md-12">
+                        <input type="text" name="pesquisa" class="form-control input-lg" placeholder="categoria ou produto" id="Pesquisa" value="" />
+                        <span class="input-group-btn">
+                            <button class="btn btn-info btn-lg" type="submit">
+                                <i class="glyphicon glyphicon-search"></i>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h3>Livros de Programa&#xE7;&#xE3;o / L&#xF3;gica</h3>
+
+    <div id="my-carousel" class="carousel slide" data-ride="carousel">
+        <!-- Wrapper for slides -->
+        <div class="carousel-inner" role="listbox">
+            @{
+                const int TAMANHO_PAGINA = 4;
+
+                int paginas = (int)Math.Ceiling((double)Model.Produtos.Count() / TAMANHO_PAGINA);
+            }
+
+          
+
+      
+            @for (int pagina = 0; pagina < paginas; pagina++)
+            {
+
+                <div class="item @(pagina == 0 ? "active" : " ")">
+                    <div class="row">
+                        @{
+                            var produtosDaPagina = Model.Produtos.Skip(pagina * TAMANHO_PAGINA).Take(TAMANHO_PAGINA);
+                        }
+
+                        <h4>Livros de Programa&#xE7;&#xE3;</h4>
+
+                        @foreach (var produto in produtosDaPagina)
+                        {
+                            <div class="col-md-3 col-sm-3 col-lg-3">
+                                <div class="panel panel-default">
+                                    <div class="panel-body">
+                                        <img class="img-produto-carrossel" src="/images/produtos/large_@(produto.Codigo).jpg" />
+                                    </div>
+                                    <div class="panel-footer produto-footer">
+                                        <div class="produto-nome">@produto.Nome</div>
+                                        <div><h4><strong>R$ @produto.Preco</strong></h4></div>
+                                        <div class="text-center">
+                                            <a asp-action="carrinho"
+                                               asp-route-codigo="@produto.Codigo"
+                                               class="btn btn-success">Adicionar</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        }
+                    </div>
+                </div>
+
+            }
+        </div>
+    </div>
+
+
+    <hr\>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h4>Buscar produtos</h4>
+                    <div id="custom-search-input">
+                        <div class="input-group col-md-12">
+                            <input type="text" name="pesquisa" class="form-control input-lg" placeholder="Node" id="Pesquisa" value="" />
+                            <span class="input-group-btn">
+                                <button class="btn btn-info btn-lg" type="submit" onclick="GetProdutos()">
+                                    <i class="glyphicon glyphicon-search"></i>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h4>Livros de Programa&#xE7;&#xE3;o / Outros</h4>
+        <div id="my-carousel" class="carousel slide" data-ride="carousel">
+            <!-- Wrapper for slides -->
+            <div class="carousel-inner" role="listbox">
+                @{
+                    const int TAMANHO_PAGINA2 = 4;
+
+                    int paginas2 = (int)Math.Ceiling((double)Model.Produtos.Count() / TAMANHO_PAGINA2);
+                }
+                @for (int pagina = 0; pagina < paginas2; pagina++)
+                {
+
+                    <div class="item @(pagina == 0 ? "active" : " ")">
+                        <div class="row">
+                            @{
+                                var produtosDaPagina = Model.Produtos.Skip(pagina * TAMANHO_PAGINA2).Take(TAMANHO_PAGINA2);
+                            }
+                            @foreach (var produto in produtosDaPagina)
+                            {
+                                <div class="col-md-3 col-sm-3 col-lg-3">
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">
+                                            <img class="img-produto-carrossel" src="/images/produtos/large_@(produto.Codigo).jpg" />
+                                        </div>
+                                        <div class="panel-footer produto-footer">
+                                            <div class="produto-nome">@produto.Nome</div>
+                                            <div><h4><strong>R$ @produto.Preco</strong></h4></div>
+                                            <div class="text-center">
+                                                <a asp-action="carrinho"
+                                                   asp-route-codigo="@produto.Codigo"
+                                                   class="btn btn-success">Adicionar</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                }
+            </div>
+
+
+            <!-- Controls -->
+            <a class="left carousel-control" href="#my-carousel" role="button" data-slide="prev">
+                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="right carousel-control" href="#my-carousel" role="button" data-slide="next">
+                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
+        </div>
+</form>
